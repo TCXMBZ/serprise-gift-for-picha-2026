@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎁 Surprise Gift</title>
+
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  background: radial-gradient(circle at top, #1a1a1a, #000);
+  font-family: 'Segoe UI', sans-serif;
+  overflow: hidden;
+}
+
+/* ===== หน้าแรก ===== */
+#cover {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+#gift {
+  font-size: 120px;
+  cursor: pointer;
+  animation: bounce 1.2s infinite;
+}
+
+@keyframes bounce {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-14px); }
+}
+
+#tapText {
+  margin-top: 16px;
+  font-size: 22px;
+  color: #ffb6c1;
+  animation: pulse 1.4s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: .4; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.05); }
+  100% { opacity: .4; transform: scale(1); }
+}
+
+/* ===== หลังเปิด ===== */
+#content {
+  display: none;
+  height: 100vh;
+  background:
+    radial-gradient(circle at 20% 20%, #ffd6e8 0%, transparent 40%),
+    radial-gradient(circle at 80% 30%, #ffeaf3 0%, transparent 40%),
+    #fff;
+  padding: 24px;
+  box-sizing: border-box;
+  text-align: center;
+  overflow-y: auto;
+}
+
+h1 {
+  color: #ff7aa2;
+  margin-top: 20px;
+}
+
+p {
+  font-size: 18px;
+  line-height: 1.6;
+  color: #444;
+}
+
+/* ===== รูป Polaroid ===== */
+.photo-frame {
+  margin: 40px auto;
+  background: white;
+  padding: 16px 16px 40px;
+  width: 260px;
+  box-shadow: 0 15px 30px rgba(0,0,0,.25);
+  transform: rotate(-2deg);
+
+  opacity: 0; /* ซ่อนไว้ก่อน */
+}
+
+.photo-frame img {
+  width: 100%;
+  border-radius: 6px;
+}
+
+.photo-frame span {
+  display: block;
+  margin-top: 10px;
+  font-size: 14px;
+  color: #888;
+}
+
+/* ===== animation รูปป๊อป ===== */
+@keyframes popUp {
+  0% {
+    opacity: 0;
+    transform: scale(0.4) translateY(40px);
+  }
+  70% {
+    opacity: 1;
+    transform: scale(1.08) translateY(-6px) rotate(-1deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0) rotate(-2deg);
+  }
+}
+
+/* มือถือ */
+@media (max-width: 600px) {
+  #gift { font-size: 90px; }
+  p { font-size: 16px; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- หน้าแรก -->
+<div id="cover">
+  <div id="gift">🎁</div>
+  <div id="tapText">แตะเพื่อเปิด</div>
+</div>
+
+<!-- หลังเปิด -->
+<div id="content">
+  <h1>Happy New Year 🎉</h1>
+
+  <p>
+     ขอให้ปี 2026 ใจดีกับคุณ ขอให้คุณมีความสุข<br>
+    เจอแต่สิ่งดีๆ ได้ทานของอร่อยๆ พักผ่อนเยอะๆ<br>
+    ยิ้มให้เยอะๆนะครับ คุณเเหมาะกับรอยยิ้มมาก<br>
+    ไม่ว่าจะเกิดอะไรขึ้นผมเป็นกำลังใจให้คุณเสมอ<br>
+    แล้วก็รักตัวเองให้มากๆนะครับคุณ😊
+  </p>
+
+  <div class="photo-frame" id="photoFrame">
+    <img src="photos/received_469640991577753.jpeg" alt="memory">
+    <span>MOMENT</span>
+  </div>
+
+    <p>
+        รักษาสุขภาพด้วยนะครับ<br>
+        หวังว่าเราจะได้เจอกันไวๆ😑 <br>
+        -TAM-
+</div>
+
+<audio id="sound" src="sound.mp3"></audio>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<script>
+const gift = document.getElementById("gift");
+const cover = document.getElementById("cover");
+const content = document.getElementById("content");
+const sound = document.getElementById("sound");
+const photoFrame = document.getElementById("photoFrame");
+
+gift.onclick = () => {
+  cover.style.display = "none";
+  content.style.display = "block";
+
+  // เล่นเพลง
+  sound.volume = 0.8;
+  sound.play();
+
+  // พลุ
+  let i = 0;
+  const fire = setInterval(() => {
+    confetti({
+      particleCount: 120,
+      spread: 140,
+      origin: { y: 0.6 }
+    });
+    i++;
+    if (i > 4) clearInterval(fire);
+  }, 400);
+
+  // รูปป๊อปอัพ
+  setTimeout(() => {
+    photoFrame.style.animation = "popUp 0.9s ease forwards";
+  }, 600);
+};
+</script>
+
+</body>
+</html>
